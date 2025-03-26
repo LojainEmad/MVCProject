@@ -1,3 +1,6 @@
+using IKEA.DAL.Persistance.Data;
+using Microsoft.EntityFrameworkCore;
+
 namespace IKEA.PL
 {
     public class Program
@@ -9,6 +12,32 @@ namespace IKEA.PL
             // Add services to the container.
             var builder = WebApplication.CreateBuilder(args);
             builder.Services.AddControllersWithViews();
+
+            //Dependency Injection , when i create context , will inject in it the options
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("defaultConnection"));
+            });
+            #region Old 
+            ////----------------------------------------
+            ////Old , addScoped => make me create an obj from class i want Per Request . 
+            ////this work generics , when i ask for obj from ApplicationDbContext , this is created at a time when i need per request 
+
+            //builder.Services.AddScoped<ApplicationDbContext>();
+
+            ////this for create DbContextOptions (which has the connection) for the my context (ApplicationDbContext)
+            //builder.Services.AddScoped<DbContextOptions<ApplicationDbContext>>((service) =>
+            //{
+            //    var optionBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
+            //    optionBuilder.UseSqlServer("Server=. , Database=IKEA_G02 ; trusted_Connection =true ; TrustServerCertificate = true");
+
+            //    var options = optionBuilder.Options;    //cas the configurations which is as connectionBuilder
+
+            //    return options;
+            //});
+            #endregion
+
+
             #endregion
 
             #region Configure Pipelines (MiddleWares)

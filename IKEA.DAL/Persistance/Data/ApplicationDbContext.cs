@@ -1,5 +1,6 @@
 ﻿using IKEA.DAL.Models.Departments;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,29 @@ using System.Threading.Tasks;
 
 namespace IKEA.DAL.Persistance.Data
 {
-    internal class ApplicationDbContext: DbContext
+    public class ApplicationDbContext: DbContext
     {
+        //Dependency Injection
+        //exp : Department require => Context => Options , as  ask clr to generate options for my contexet
+         
+        //this is empty constructor make chaining on base , to the base can call the last version of onConfiguring function which has optionsBuilder 
+
+        //inject optionsBuilder
+
+        //options has the conncetion string
+        //Ask CLR Generate Options for My Context
+        public ApplicationDbContext(DbContextOptions options) :base(options)
+        {
+            
+        }
+        #region old
+        ////this on the Entity Frame work
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.UseSqlServer("Server=. , Database=IKEA_G02 ; trusted_Connection =true ; TrustServerCertificate = true");
+        //}
+        #endregion
+
         //to apply configurations made using fluent api
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
