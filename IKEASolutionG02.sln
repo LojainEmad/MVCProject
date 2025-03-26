@@ -3,7 +3,31 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.12.35527.113 d17.12
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IKEA.PL", "IKEA.PL\IKEA.PL.csproj", "{D5C1F4EF-27D9-4932-A3C3-5EE42F7BF546}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IKEA.BLL", "IKEA.BLL\IKEA.BLL.csproj", "{B49A0205-3259-448D-9CBB-7CD0419DF9A7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IKEA.DAL", "IKEA.DAL\IKEA.DAL.csproj", "{3808F6CA-B1DA-4CE9-8DEE-D93514E6E01C}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D5C1F4EF-27D9-4932-A3C3-5EE42F7BF546}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5C1F4EF-27D9-4932-A3C3-5EE42F7BF546}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5C1F4EF-27D9-4932-A3C3-5EE42F7BF546}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5C1F4EF-27D9-4932-A3C3-5EE42F7BF546}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B49A0205-3259-448D-9CBB-7CD0419DF9A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B49A0205-3259-448D-9CBB-7CD0419DF9A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B49A0205-3259-448D-9CBB-7CD0419DF9A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B49A0205-3259-448D-9CBB-7CD0419DF9A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3808F6CA-B1DA-4CE9-8DEE-D93514E6E01C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3808F6CA-B1DA-4CE9-8DEE-D93514E6E01C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3808F6CA-B1DA-4CE9-8DEE-D93514E6E01C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3808F6CA-B1DA-4CE9-8DEE-D93514E6E01C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
