@@ -1,4 +1,5 @@
 using IKEA.DAL.Persistance.Data;
+using IKEA.DAL.Persistance.Repositories.Departments;
 using Microsoft.EntityFrameworkCore;
 
 namespace IKEA.PL
@@ -18,6 +19,8 @@ namespace IKEA.PL
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("defaultConnection"));
             });
+
+            builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>(); //when any thing require thing from IDepartmentRepository (which is Services ) , send to it thing from type DepartmentRepository
             #region Old 
             ////----------------------------------------
             ////Old , addScoped => make me create an obj from class i want Per Request . 
