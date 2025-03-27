@@ -34,8 +34,24 @@ namespace IKEA.PL.Controllers
         }
         #endregion
 
+        #region Details
         [HttpGet]
-        public IActionResult Create() {
+        public IActionResult Details(int? id )
+        {
+            if (id is null)
+                return BadRequest();
+
+            var department = departmentServices.GetDepartmentById(id.Value);
+            if (department is null)
+                return NotFound();
+            return View(department);
+        }
+        #endregion
+
+        #region Create
+        [HttpGet]
+        public IActionResult Create()
+        {
             return View();
         }
 
@@ -43,12 +59,13 @@ namespace IKEA.PL.Controllers
         public IActionResult Create(CreatedDepartmentDto departmentDto)
         {
             //ServerSide Validation
-            if (!ModelState.IsValid) { 
-            return View(departmentDto);
+            if (!ModelState.IsValid)
+            {
+                return View(departmentDto);
             }
-            var Message =string.Empty;
+            var Message = string.Empty;
 
-           
+
             try
             {
                 var Result = departmentServices.CreateDepartment(departmentDto);
@@ -61,10 +78,10 @@ namespace IKEA.PL.Controllers
                     return View(departmentDto);
                 }
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 //1-Log Exception Kestral (not appear for enduser)
-                logger.LogError(ex,ex.Message);
+                logger.LogError(ex, ex.Message);
 
                 //2-Set Default Message User
                 if (environment.IsDevelopment())
@@ -79,14 +96,15 @@ namespace IKEA.PL.Controllers
                     ModelState.AddModelError(string.Empty, Message);
                     return View(departmentDto);
                 }
-               
+
             }
-          
+
 
             //return View();
 
 
-        }
+        } 
+        #endregion
 
     }
 }
