@@ -22,8 +22,8 @@ namespace IKEA.BLL.Services.DepartmentServices
 
         //------------------------------------------------
 
-        //when thing call Services , which is (Controller) which is in PL 
-        public DepartmentServices(DepartmentRepository _repository)  //inject in the Services thing of the repository 
+        //when thing call Services , this is (Controller) which is in PL 
+        public DepartmentServices(IDepartmentRepository _repository)  //inject in the Services thing of the repository 
         {
             Repository = _repository;
 
