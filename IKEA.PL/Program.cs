@@ -1,3 +1,4 @@
+using IKEA.BLL.Services.DepartmentServices;
 using IKEA.DAL.Persistance.Data;
 using IKEA.DAL.Persistance.Repositories.Departments;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +13,7 @@ namespace IKEA.PL
             #region Cofigure Services
             // Add services to the container.
             var builder = WebApplication.CreateBuilder(args);
-            builder.Services.AddControllersWithViews();
+            builder.Services.AddControllersWithViews();    //object =>Department =>services =>Repository => Context => options  --------> this happen per Request 
 
             //Dependency Injection , when i create context , will inject in it the options
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -39,6 +40,7 @@ namespace IKEA.PL
             //    return options;
             //});
             #endregion
+            builder.Services.AddScoped<IDepartmentServices, DepartmentServices>();   //here told CLR , when thing want from type  IDepartmentServices , pass to it thing from type DepartmentServices
 
 
             #endregion
