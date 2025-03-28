@@ -41,6 +41,7 @@ namespace IKEA.PL
             //});
             #endregion
             builder.Services.AddScoped<IDepartmentServices, DepartmentServices>();   //here told CLR , when thing want from type  IDepartmentServices , pass to it thing from type DepartmentServices
+              
 
 
             #endregion
