@@ -13,16 +13,18 @@ namespace IKEA.PL.Controllers
         //Service => Departments
         //Will Cal the Services of the Department
 
+        #region Services - DI
         private readonly IDepartmentServices departmentServices;
         private readonly ILogger<DepartmentController> logger;
         private readonly IWebHostEnvironment environment;
 
-        public DepartmentController(IDepartmentServices _departmentServices , ILogger<DepartmentController> _logger ,IWebHostEnvironment environment)
+        public DepartmentController(IDepartmentServices _departmentServices, ILogger<DepartmentController> _logger, IWebHostEnvironment environment)
         {
             departmentServices = _departmentServices;
             logger = _logger;
             this.environment = environment;
-        }
+        } 
+        #endregion
 
         #region Index
         [HttpGet]
@@ -163,6 +165,50 @@ namespace IKEA.PL.Controllers
             ModelState.AddModelError(string.Empty, Message);    
             return View(departmentDto);
         }
+        #endregion
+
+        #region Delete (HARD DELETE) ->Already delete from database
+        [HttpGet]          //to take id first throw the bottun
+        public IActionResult Delete(int? id)
+        {
+            if (id is null)
+                return BadRequest();
+            var Department = departmentServices.GetDepartmentById(id.Value);
+
+            if (Department is null)
+                return NotFound();
+            return View(Department);
+
+
+        }
+
+        [HttpPost]
+        public IActionResult Delete (int DeptId)
+        {
+            var Message=String.Empty;
+            try
+            {
+                var IsDeleted = departmentServices.DeleteDepartment(DeptId);    
+                if(IsDeleted)
+                    return RedirectToAction(nameof(Index));
+                Message = "Department is Not Deleted";
+            }
+            catch(Exception ex)
+            {
+
+                //1.log Exceptions through kestral
+                logger.LogError(ex, ex.Message);
+
+                //2.Set Message
+
+                Message = environment.IsDevelopment() ? ex.Message : "An Error has been occured during delete the Department!";
+
+            }
+            ModelState.AddModelError(string.Empty, Message);
+            return RedirectToAction(nameof(Delete), new {id= DeptId });
+        }
+
+
         #endregion
 
     }

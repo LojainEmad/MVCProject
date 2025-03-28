@@ -26,9 +26,11 @@ namespace IKEA.DAL.Persistance.Repositories.Departments
         public IEnumerable<Department> GetAll(bool WithNoTracking = true)
         {
             if(WithNoTracking)
-                return dbContext.Departments.AsNoTracking().ToList();
+                //return dbContext.Departments.AsNoTracking().ToList(); //normal and for Hard Deleted
+                return dbContext.Departments.Where(D=>D.IsDeletd == false).AsNoTracking().ToList();   //normal and for Soft Deleted
 
-            return dbContext.Departments.ToList();
+
+            return dbContext.Departments.Where(D => D.IsDeletd == false).ToList();
 
         }
 
@@ -60,8 +62,15 @@ namespace IKEA.DAL.Persistance.Repositories.Departments
 
         public int Delete(Department department)
         {
-            dbContext.Departments.Remove(department);
-            return dbContext.SaveChanges();
+            ////This is (Hard Delete) -> actual delete from database
+            //dbContext.Departments.Remove(department);
+            //return dbContext.SaveChanges();
+            //------------------------------------
+
+            //This is Soft delete (Delete Front of the User only) not from the database
+            department.IsDeletd = true;
+            dbContext.Departments.Update(department);
+            return dbContext.SaveChanges(); 
         }
 
 
