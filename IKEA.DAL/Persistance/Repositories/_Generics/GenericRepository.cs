@@ -18,14 +18,32 @@ namespace IKEA.DAL.Persistance.Repositories._Generics
         {
             dbContext = context;
         }
-        public IEnumerable<T> GetAll(bool WithNoTracking = true)
+
+        //IEnumrebe ->In-Memory Collection
+        //IQuerable ->Database Collection
+
+        #region Old Approach
+        //public IEnumerable<T> GetAll(bool WithNoTracking = true)
+        //{
+
+        //    if (WithNoTracking)
+
+        //        return dbContext.Set<T>().Where(D => D.IsDeletd == false).AsNoTracking().ToList();   //normal and for Soft Deleted
+
+
+        //    return dbContext.Set<T>().Where(D => D.IsDeletd == false).ToList();
+
+        //} 
+        #endregion
+        public IQueryable<T> GetAll(bool WithNoTracking = true)
         {
+
             if (WithNoTracking)
 
-                return dbContext.Set<T>().Where(D => D.IsDeletd == false).AsNoTracking().ToList();   //normal and for Soft Deleted
+                return dbContext.Set<T>().AsNoTracking();   //normal and for Soft Deleted
 
 
-            return dbContext.Set<T>().Where(D => D.IsDeletd == false).ToList();
+            return dbContext.Set<T>();
 
         }
 
