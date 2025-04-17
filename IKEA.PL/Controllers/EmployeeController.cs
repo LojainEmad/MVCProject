@@ -39,6 +39,7 @@ namespace IKEA.PL.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Create(CreatedEmployeeDto EmployeeDto)
         {
             //ServerSide Validation
@@ -132,6 +133,7 @@ namespace IKEA.PL.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Edit(UpdatedEmployeeDto employeeDto)
         {
 
@@ -181,6 +183,7 @@ namespace IKEA.PL.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Delete(int EmpId)
         {
             var Message = String.Empty;

@@ -58,6 +58,8 @@ namespace IKEA.PL.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]   //enable the browser to send the token which i use , so Create method no one can use it except the token which the server send 
+        //يعني مش هيخليني اعمل كرييت الا من عند الويب سايت عشان وقتها هتتعمل توكين غير كدة لا 
         public IActionResult Create(CreatedDepartmentDto departmentDto)
         {
             //ServerSide Validation
@@ -134,6 +136,7 @@ namespace IKEA.PL.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Edit(UpdatedDepartmentDto departmentDto)
         {
 
@@ -183,6 +186,7 @@ namespace IKEA.PL.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Delete (int DeptId)
         {
             var Message=String.Empty;
