@@ -99,5 +99,71 @@ namespace IKEA.PL.Controllers
         }
         #endregion
 
+
+        #region Update
+
+        [HttpGet]   //Get:   /Department/Edit/10
+        public IActionResult Edit(int? id)
+        {
+            //will make mapping to convert from departmentDetailsDto to UpdatedDepartmentDto , to limit the things which the user can edit and update 
+            if (id is null)
+                return BadRequest();
+
+            var Employee = employeeServices.GetEmployeeById(id.Value);
+            if (Employee is null)
+                return NotFound();
+
+            var MappedEmployee = new UpdatedEmployeeDto()
+            {
+                Id = Employee.Id,
+                Name = Employee.Name,
+                Age = Employee.Age,
+                Address = Employee.Address,
+                HiringDate = Employee.HiringDate,
+                Salary = Employee.Salary,
+                Email = Employee.Email,
+                PhoneNumber = Employee.PhoneNumber,
+                Gender = Employee.Gender,
+                EmployeeType = Employee.EmployeeType,   
+                IsActive = Employee.IsActive,   
+            };
+
+            return View(MappedEmployee);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(UpdatedEmployeeDto employeeDto)
+        {
+
+            //check the validation for the model if exist 
+            if (!ModelState.IsValid)
+            {
+                return View(employeeDto);
+            }
+            var Message = String.Empty;
+            try
+            {
+                var Result = employeeServices.UpdateEmployee(employeeDto);
+                if (Result > 0)
+                    return RedirectToAction(nameof(Index));
+                else
+                    Message = "Employee is Not Updated";
+            }
+            catch (Exception ex)
+            {
+                //1.log Exceptions through kestral
+                logger.LogError(ex, ex.Message);
+
+                //2.Set Message
+
+                Message = environment.IsDevelopment() ? ex.Message : "An Error has been occured during Update the Employee!";
+
+            }
+
+            ModelState.AddModelError(string.Empty, Message);
+            return View(employeeDto);
+        }
+        #endregion
+
     }
 }

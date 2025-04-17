@@ -43,7 +43,6 @@
                     <td>@Html.DisplayFor(e => emp.Salary)</td>
                     <td>@Html.DisplayFor(e => emp.IsActive)</td>
                     <td>@Html.DisplayFor(e => emp.Gender)</td>
-                    <td>@emp.Gender</td>
                     <td>
                         <a  asp-action="Details" asp-route-id="@emp.Id" class="btn btn-warning">
                             <i class="fas fa-eye"></i> Details
@@ -79,7 +78,7 @@
                                 <h4 class="modal-title fs-5" id="exampleModalLabel">Are U Sure To Delete Employee @emp.Name ? </h4>
                             </div>
                             <div class="modal-footer">
-                                <form asp-action="Delete" asp-route-EmpId="@emp.Id" method="post">
+                                <form asp-action="Delete" asp-route-empId="@emp.Id" method="post">
                                     @*this for submit the ID which will be deleted as post method*@
                                     <div asp-validation-summary="ModelOnly" class="text-danger"> </div>
                                     <div class="mt-4">
