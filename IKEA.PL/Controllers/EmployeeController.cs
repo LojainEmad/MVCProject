@@ -165,5 +165,49 @@ namespace IKEA.PL.Controllers
         }
         #endregion
 
+        #region Delete (HARD DELETE) ->Already delete from database
+        [HttpGet]          //to take id first throw the bottun
+        public IActionResult Delete(int? id)
+        {
+            if (id is null)
+                return BadRequest();
+            var Employee = employeeServices.GetEmployeeById(id.Value);
+
+            if (Employee is null)
+                return NotFound();
+            return View(Employee);
+
+
+        }
+
+        [HttpPost]
+        public IActionResult Delete(int EmpId)
+        {
+            var Message = String.Empty;
+            try
+            {
+                var IsDeleted = employeeServices.DeleteEmployee(EmpId);
+                if (IsDeleted)
+                    return RedirectToAction(nameof(Index));
+                Message = "Employee is Not Deleted";
+            }
+            catch (Exception ex)
+            {
+
+                //1.log Exceptions through kestral
+                logger.LogError(ex, ex.Message);
+
+                //2.Set Message
+
+                Message = environment.IsDevelopment() ? ex.Message : "An Error has been occured during delete the Employee!";
+
+            }
+            ModelState.AddModelError(string.Empty, Message);
+            return RedirectToAction(nameof(Delete), new { id = EmpId });
+        }
+
+
+        #endregion
+
     }
 }
