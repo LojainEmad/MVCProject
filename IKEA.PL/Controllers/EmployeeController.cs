@@ -42,7 +42,7 @@ namespace IKEA.PL.Controllers
         public IActionResult Create(CreatedEmployeeDto EmployeeDto)
         {
             //ServerSide Validation
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid)   //false =>BadRequest
             {
                 return View(EmployeeDto);
             }
