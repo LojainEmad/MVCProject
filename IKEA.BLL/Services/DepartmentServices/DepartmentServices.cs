@@ -33,7 +33,7 @@ namespace IKEA.BLL.Services.DepartmentServices
         {
             //Mapping =>then make mapping from department to departmentDto
             //Manual Mapping 
-            var Departments = Repository.GetAll().Select(dept => new DepartmentDto()
+            var Departments = Repository.GetAll().Where(D=>!D.IsDeletd).Select(dept => new DepartmentDto()
             {
                 Id = dept.Id,
                 Name = dept.Name,
