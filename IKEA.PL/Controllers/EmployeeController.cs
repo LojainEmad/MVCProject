@@ -24,14 +24,14 @@ namespace IKEA.PL.Controllers
         #endregion
 
         #region Index
-        [HttpGet]  //Employee/Index
+        [HttpGet]  //Employee/Index ? search =Ahmed 
 
         //Transfer Data per Request 
-        public IActionResult Index()
+        public IActionResult Index(string search)
         {//ViweData ViewBag TempData
             //ViweData ViewBag
 
-            var Employees = employeeServices.GetAllEmployees();
+            var Employees = employeeServices.GetAllEmployees(search);
 
             return View(Employees);
         }

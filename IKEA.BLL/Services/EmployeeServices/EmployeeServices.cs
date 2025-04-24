@@ -20,7 +20,7 @@ namespace IKEA.BLL.Services.EmployeeServices
 
         }
 
-        public IEnumerable<EmployeeDto> GetAllEmployees()
+        public IEnumerable<EmployeeDto> GetAllEmployees(string search)
         {
             #region Old region
             //return repository.GetAll().Where(E => !E.IsDeletd == false).Select(E => new EmployeeDto()
@@ -38,7 +38,7 @@ namespace IKEA.BLL.Services.EmployeeServices
             #endregion
 
             var Employees = repository.GetAll();
-            var FilteredEmployees = Employees.Where(E => E.IsDeletd == false).Include(E=>E.Department);
+            var FilteredEmployees = Employees.Where(E => E.IsDeletd == false &&(string.IsNullOrEmpty(search) || E.Name.ToLower().Contains(search.ToLower()))).Include(E=>E.Department);
             var AfterFilteration = FilteredEmployees.Select(E => new EmployeeDto()
             {
 
