@@ -3,6 +3,7 @@ using IKEA.BLL.Services.EmployeeServices;
 using IKEA.DAL.Persistance.Data;
 using IKEA.DAL.Persistance.Repositories.Departments;
 using IKEA.DAL.Persistance.Repositories.Employees;
+using IKEA.DAL.Persistance.UnitOfWork;
 using IKEA.PL.Mapping;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,7 +25,7 @@ namespace IKEA.PL
                 options.UseLazyLoadingProxies().UseSqlServer(builder.Configuration.GetConnectionString("defaultConnection"));
             });
 
-            builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>(); //when any thing require thing from IDepartmentRepository (which is Services ) , send to it thing from type DepartmentRepository
+
             #region Old 
             ////----------------------------------------
             ////Old , addScoped => make me create an obj from class i want Per Request . 
@@ -44,7 +45,10 @@ namespace IKEA.PL
             //});
             #endregion
             builder.Services.AddScoped<IDepartmentServices, DepartmentServices>();   //here told CLR , when thing want from type  IDepartmentServices , pass to it thing from type DepartmentServices
-            builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            //builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            //builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>(); //when any thing require thing from IDepartmentRepository (which is Services ) , send to it thing from type DepartmentRepository
+
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped<IEmployeeServices, EmployeeServices>();
 
             builder.Services.AddAutoMapper(M => M.AddProfile(typeof(MappingProfile)));

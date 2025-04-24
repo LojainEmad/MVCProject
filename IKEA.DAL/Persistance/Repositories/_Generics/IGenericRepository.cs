@@ -15,11 +15,11 @@ namespace IKEA.DAL.Persistance.Repositories._Generics
 
         T? GetById(int id);   //return specific department by its ID
 
-        int Add(T entity);   //return num of rows affected after that 
+        void Add(T entity);   //return num of rows affected after that 
 
-        int Update(T entity);
+        void Update(T entity);
 
-        int Delete(T entity);
+        void Delete(T entity);
 
     }
 }

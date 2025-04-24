@@ -55,25 +55,25 @@ namespace IKEA.DAL.Persistance.Repositories._Generics
             return item;
         }
 
-        public int Add(T item)
+        public void Add(T item)
         {
             dbContext.Set<T>().Add(item);
-            return dbContext.SaveChanges();
+            //return dbContext.SaveChanges();
         }
 
-        public int Update(T item)
+        public void Update(T item)
         {
             dbContext.Set<T>().Update(item);
-            return dbContext.SaveChanges();
+            //return dbContext.SaveChanges();
         }
 
-        public int Delete(T item)
+        public void Delete(T item)
         {
 
             //This is Soft delete (Delete Front of the User only) not from the database
             item.IsDeletd = true;
             dbContext.Set<T>().Update(item);
-            return dbContext.SaveChanges();
+            //return dbContext.SaveChanges();
         }
     }
 }
