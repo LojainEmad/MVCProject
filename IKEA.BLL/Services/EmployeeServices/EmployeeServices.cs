@@ -1,6 +1,7 @@
 ﻿using IKEA.BLL.Dto_s.Employees;
 using IKEA.DAL.Models.Employees;
 using IKEA.DAL.Persistance.Repositories.Employees;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +23,7 @@ namespace IKEA.BLL.Services.EmployeeServices
         public IEnumerable<EmployeeDto> GetAllEmployees()
         {
             #region Old region
-            //return repository.GetAll().Where(E => E.IsDeletd == false).Select(E => new EmployeeDto()
+            //return repository.GetAll().Where(E => !E.IsDeletd == false).Select(E => new EmployeeDto()
             //{
 
             //    Id=E.Id,
@@ -37,7 +38,7 @@ namespace IKEA.BLL.Services.EmployeeServices
             #endregion
 
             var Employees = repository.GetAll();
-            var FilteredEmployees = Employees.Where(E => E.IsDeletd == false);
+            var FilteredEmployees = Employees.Where(E => E.IsDeletd == false).Include(E=>E.Department);
             var AfterFilteration = FilteredEmployees.Select(E => new EmployeeDto()
             {
 
@@ -49,6 +50,7 @@ namespace IKEA.BLL.Services.EmployeeServices
                 Email = E.Email,
                 Gender = E.Gender,
                 EmployeeType = E.EmployeeType,
+                Department=E.Department.Name?? "N/A"
             });
             return AfterFilteration.ToList();
 
@@ -76,7 +78,8 @@ namespace IKEA.BLL.Services.EmployeeServices
                     LastModifiedBy =employee.LastModifiedBy,
                     CreatedBy =employee.CreatedBy,
                     LastModifiedOn =employee.LastModifiedOn,
-                    CreatedOn =employee.CreatedOn,  
+                    CreatedOn =employee.CreatedOn,
+                    Department = employee.Department?.Name ?? "N/A"
                 };
 
             }
@@ -97,6 +100,7 @@ namespace IKEA.BLL.Services.EmployeeServices
                 HiringDate= employeeDto.HiringDate,
                 Gender = employeeDto.Gender,
                 EmployeeType = employeeDto.EmployeeType,
+                DepartmentId = employeeDto.DepartmentId,
                 CreatedBy=1,
                 LastModifiedBy=1,
                 LastModifiedOn =DateTime.Now,
@@ -122,6 +126,7 @@ namespace IKEA.BLL.Services.EmployeeServices
                 HiringDate = employeeDto.HiringDate,
                 Gender = employeeDto.Gender,
                 EmployeeType = employeeDto.EmployeeType,
+                DepartmentId = employeeDto.DepartmentId,
                 LastModifiedBy = 1,
                 LastModifiedOn = DateTime.Now,
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IKEA.DAL.Models.Employees;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,6 +17,10 @@ namespace IKEA.DAL.Models.Departments
         public string? Description { get; set; }   //nullable , can be passed or not
 
         public DateOnly CreationDate { get; set; }    //this represent the date of create the department and this for user , for business role and endUser
+
+
+        //Navigational property [Many]
+        public virtual ICollection<Employee> Employees { get; set; } = new HashSet<Employee>();
 
     }
 

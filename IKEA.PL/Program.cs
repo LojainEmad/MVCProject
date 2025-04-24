@@ -20,7 +20,7 @@ namespace IKEA.PL
             //Dependency Injection , when i create context , will inject in it the options
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
             {
-                options.UseSqlServer(builder.Configuration.GetConnectionString("defaultConnection"));
+                options.UseLazyLoadingProxies().UseSqlServer(builder.Configuration.GetConnectionString("defaultConnection"));
             });
 
             builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>(); //when any thing require thing from IDepartmentRepository (which is Services ) , send to it thing from type DepartmentRepository
