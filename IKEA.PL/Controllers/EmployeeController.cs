@@ -23,8 +23,12 @@ namespace IKEA.PL.Controllers
 
         #region Index
         [HttpGet]  //Employee/Index
+
+        //Transfer Data per Request 
         public IActionResult Index()
-        {
+        {//ViweData ViewBag TempData
+            //ViweData ViewBag
+
             var Employees = employeeServices.GetAllEmployees();
 
             return View(Employees);

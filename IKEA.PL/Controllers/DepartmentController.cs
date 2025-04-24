@@ -33,6 +33,16 @@ namespace IKEA.PL.Controllers
         {
             //view will return data of model
             var Departments =departmentServices.GetAllDepartments();
+
+
+           // ///1. ViewData is a Dictionary => Key Value
+           // ///
+           // //ViewData => var strongly Typed requitrd TypeCasting
+           // ViewData["Message"] = "Hello From ViewData";
+           //// string Name = ViewData["Message"] as string;
+           // ViewBag.Message= "Hello From ViewBag";
+           // ViewBag.Message = 1;
+           // string Name = ViewBag.Message;
             return View(Departments);   //view of model
         }
         #endregion
@@ -82,7 +92,10 @@ namespace IKEA.PL.Controllers
                 };
                 var Result = departmentServices.CreateDepartment(departmentDto);
                 if (Result > 0)
+                {
+                    TempData["Message"] = $"{departmentDto.Name}Department is Created";
                     return RedirectToAction(nameof(Index));
+                }  
                 else
                     Message = "Department is not Created";
             }
