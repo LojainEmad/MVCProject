@@ -1,4 +1,5 @@
-﻿using IKEA.BLL.Dto_s.Departments;
+﻿using AutoMapper;
+using IKEA.BLL.Dto_s.Departments;
 using IKEA.BLL.Services.DepartmentServices;
 using IKEA.PL.ViewModel;
 using Microsoft.AspNetCore.Mvc;
@@ -16,12 +17,14 @@ namespace IKEA.PL.Controllers
 
         #region Services - DI
         private readonly IDepartmentServices departmentServices;
+        private readonly IMapper mapper;
         private readonly ILogger<DepartmentController> logger;
         private readonly IWebHostEnvironment environment;
 
-        public DepartmentController(IDepartmentServices _departmentServices, ILogger<DepartmentController> _logger, IWebHostEnvironment environment)
+        public DepartmentController(IDepartmentServices _departmentServices,IMapper mapper , ILogger<DepartmentController> _logger, IWebHostEnvironment environment)
         {
             departmentServices = _departmentServices;
+            this.mapper = mapper;
             logger = _logger;
             this.environment = environment;
         } 
@@ -83,13 +86,17 @@ namespace IKEA.PL.Controllers
 
             try
             {
-                var departmentDto = new CreatedDepartmentDto()
-                {
-                    Name= departmentVM.Name,
-                    Code= departmentVM.Code,
-                    CreationDate= departmentVM.CreationDate,
-                    Description= departmentVM.Description,
-                };
+                //AutoMapper
+                var departmentDto = mapper.Map<DepartmentVM, CreatedDepartmentDto>(departmentVM);
+
+                //Manual mapping
+                //var departmentDto = new CreatedDepartmentDto()
+                //{
+                //    Name= departmentVM.Name,
+                //    Code= departmentVM.Code,
+                //    CreationDate= departmentVM.CreationDate,
+                //    Description= departmentVM.Description,
+                //};
                 var Result = departmentServices.CreateDepartment(departmentDto);
                 if (Result > 0)
                 {
@@ -137,14 +144,17 @@ namespace IKEA.PL.Controllers
             if(Department is null)
                 return NotFound();
 
-            var MappedDepartment = new DepartmentVM()
-            {
-                Id = Department.Id,
-                Name = Department.Name,
-                Code = Department.Code,
-                Description = Department.Description,
-                CreationDate = Department.CreationDate,
-            };
+            //Map Details Dto to UpdatedDto
+
+            var MappedDepartment = mapper.Map<DepartmentDetailsDto , DepartmentVM>(Department);
+            //var MappedDepartment = new DepartmentVM()
+            //{
+            //    Id = Department.Id,
+            //    Name = Department.Name,
+            //    Code = Department.Code,
+            //    Description = Department.Description,
+            //    CreationDate = Department.CreationDate,
+            //};
 
             return View(MappedDepartment);
         }
@@ -162,14 +172,15 @@ namespace IKEA.PL.Controllers
             var Message =String.Empty;
             try
             {
-                var departmentDto = new UpdatedDepartmentDto()
-                {
-                    Id = departmentVM.Id,
-                    Name = departmentVM.Name,
-                    Code = departmentVM.Code,
-                    CreationDate = departmentVM.CreationDate,
-                    Description = departmentVM.Description,
-                };
+                var departmentDto = mapper.Map<DepartmentVM, UpdatedDepartmentDto>(departmentVM);
+                //var departmentDto = new UpdatedDepartmentDto()
+                //{
+                //    Id = departmentVM.Id,
+                //    Name = departmentVM.Name,
+                //    Code = departmentVM.Code,
+                //    CreationDate = departmentVM.CreationDate,
+                //    Description = departmentVM.Description,
+                //};
                 var Result =departmentServices.UpdateDepartment(departmentDto);
                 if (Result > 0)
                     return RedirectToAction(nameof(Index));
