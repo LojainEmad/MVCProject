@@ -1,6 +1,7 @@
 ﻿using IKEA.BLL.Dto_s.Departments;
 using IKEA.DAL.Models.Departments;
 using IKEA.DAL.Persistance.Repositories.Departments;
+using IKEA.DAL.Persistance.UnitOfWork;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,21 +20,22 @@ namespace IKEA.BLL.Services.DepartmentServices
 
         //the interface is reference and wait for obj , any obj implemet the repository as department repository , oracle repository ,...
         private IDepartmentRepository Repository;    //develop against concrete class not true if i change the services  , so develop against interface is true 
+        private readonly  IUnitOfWork unitOfWork;
 
         //------------------------------------------------
 
         //when thing call Services , this is (Controller) which is in PL 
-        public DepartmentServices(IDepartmentRepository _repository)  //inject in the Services thing of the repository 
+        public DepartmentServices(IUnitOfWork unitOfWork)  //inject in the Services thing of the repository 
         {
-            Repository = _repository;
 
+            this.unitOfWork = unitOfWork;
         }
 
         public IEnumerable<DepartmentDto> GetAllDepartments()
         {
             //Mapping =>then make mapping from department to departmentDto
             //Manual Mapping 
-            var Departments = Repository.GetAll().Where(D=>!D.IsDeletd).Select(dept => new DepartmentDto()
+            var Departments = unitOfWork.DepartmentRepository.GetAll().Where(D=>!D.IsDeletd).Select(dept => new DepartmentDto()
             {
                 Id = dept.Id,
                 Name = dept.Name,
@@ -68,7 +70,7 @@ namespace IKEA.BLL.Services.DepartmentServices
 
         public DepartmentDetailsDto? GetDepartmentById(int id)         //make it nullable as if it is null not get error 
          {
-           var Department = Repository.GetById(id);
+           var Department = unitOfWork.DepartmentRepository.GetById(id);
             if(Department is not null)
                 return new DepartmentDetailsDto()
                 {
@@ -102,7 +104,8 @@ namespace IKEA.BLL.Services.DepartmentServices
                 LastModifiedBy = 1,
                 LastModifiedOn = DateTime.Now,
             };
-            return Repository.Add(CreatedDepartment);
+            unitOfWork.DepartmentRepository.Add(CreatedDepartment);
+            return unitOfWork.Complete();
         }
 
         public int UpdateDepartment(UpdatedDepartmentDto departmentDto)
@@ -119,15 +122,19 @@ namespace IKEA.BLL.Services.DepartmentServices
                 LastModifiedOn = DateTime.Now,
 
             };
-            return Repository.Update(UpdatedDepartment);
+            unitOfWork.DepartmentRepository.Update(UpdatedDepartment);
+            return unitOfWork.Complete();
         }
 
         public bool DeleteDepartment(int id)
         {
-            var department =Repository.GetById(id);
+            var department = unitOfWork.DepartmentRepository.GetById(id);
             //int result=0;
             if (department is not null)
-                return Repository.Delete(department)>0;   //will return num of roes effected
+                unitOfWork.DepartmentRepository.Delete(department);   //will return num of roes effected
+            var Result = unitOfWork.Complete();
+            if (Result > 0)
+                return true;
             else
                 return false;
         }

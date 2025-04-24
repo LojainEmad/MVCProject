@@ -23,6 +23,12 @@ namespace IKEA.DAL.Persistance.Data.Configurations.DepartmentConfigurations
             builder.Property(D => D.CreatedOn).HasDefaultValueSql("GetDate()");    //add default value for the time when i create as developer
 
             builder.Property(D => D.LastModifiedOn).HasComputedColumnSql("GetDate()"); //for every modify , it change 
+
+
+            builder.HasMany(D=>D.Employees)
+                .WithOne(E=>E.Department)
+                .HasForeignKey(E=>E.DepartmentId)
+                .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }
