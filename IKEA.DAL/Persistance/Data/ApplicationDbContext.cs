@@ -1,5 +1,8 @@
 ﻿using IKEA.DAL.Models.Departments;
 using IKEA.DAL.Models.Employees;
+using IKEA.DAL.Models.Identity;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System;
@@ -11,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace IKEA.DAL.Persistance.Data
 {
-    public class ApplicationDbContext: DbContext
+    public class ApplicationDbContext: IdentityDbContext<ApplicationUser>   //IdentityUser IdentityRole string
     {
         //Dependency Injection
         //exp : Department require => Context => Options , as  ask clr to generate options for my contexet
@@ -25,6 +28,7 @@ namespace IKEA.DAL.Persistance.Data
         public ApplicationDbContext(DbContextOptions options) :base(options)
         {
             
+
         }
         #region old
         ////this on the Entity Frame work
@@ -37,10 +41,13 @@ namespace IKEA.DAL.Persistance.Data
         //to apply configurations made using fluent api
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());           //assembly is mean the current project   //search for any ine how implement the IEntityTypeConfiguration  , to can implement the configurations
         }
         public DbSet<Department> Departments { get; set; }   //this we the table be ready
         public DbSet<Employee> Employees { get; set; }
+
+        //public DbSet<IdentityUser> Users {  get; set; }
 
     }
 }
