@@ -133,7 +133,8 @@ namespace IKEA.PL.Controllers
                 PhoneNumber = Employee.PhoneNumber,
                 Gender = Employee.Gender,
                 EmployeeType = Employee.EmployeeType,   
-                IsActive = Employee.IsActive,   
+                IsActive = Employee.IsActive, 
+                ImageName = Employee.ImageName, 
             };
 
             //ViewData["Departments"] = departmentServices.GetAllDepartments();

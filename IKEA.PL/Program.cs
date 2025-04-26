@@ -1,3 +1,4 @@
+using IKEA.BLL.Common.Services.Attachments;
 using IKEA.BLL.Services.DepartmentServices;
 using IKEA.BLL.Services.EmployeeServices;
 using IKEA.DAL.Persistance.Data;
@@ -44,13 +45,15 @@ namespace IKEA.PL
             //    return options;
             //});
             #endregion
-            builder.Services.AddScoped<IDepartmentServices, DepartmentServices>();   //here told CLR , when thing want from type  IDepartmentServices , pass to it thing from type DepartmentServices
+          
             //builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             //builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>(); //when any thing require thing from IDepartmentRepository (which is Services ) , send to it thing from type DepartmentRepository
 
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped<IEmployeeServices, EmployeeServices>();
+            builder.Services.AddScoped<IDepartmentServices, DepartmentServices>();   //here told CLR , when thing want from type  IDepartmentServices , pass to it thing from type DepartmentServices
 
+            builder.Services.AddScoped<IAttachmentServices , AttachmentServices>();
             builder.Services.AddAutoMapper(M => M.AddProfile(typeof(MappingProfile)));
               
 

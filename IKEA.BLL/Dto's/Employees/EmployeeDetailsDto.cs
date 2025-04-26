@@ -31,6 +31,9 @@ namespace IKEA.BLL.Dto_s.Employees
 
         public string? Department { get; set; }
 
+        public string? ImageName { get; set; }  
+
+
         #region Administrator
 
 

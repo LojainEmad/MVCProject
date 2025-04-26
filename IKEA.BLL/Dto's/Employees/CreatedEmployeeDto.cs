@@ -1,4 +1,5 @@
 ﻿using IKEA.DAL.Common.Enums;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -16,7 +17,7 @@ namespace IKEA.BLL.Dto_s.Employees
 
         public String Name { get; set; }
 
-        [Range(22,30)]
+        [Range(21,30)]
         public int? Age { get; set; }
 
 
@@ -46,6 +47,8 @@ namespace IKEA.BLL.Dto_s.Employees
 
         [Display(Name="Department")]
         public int? DepartmentId    { get; set; }
+
+        public IFormFile Image {  get; set; }
 
     }
 }
