@@ -47,7 +47,7 @@ namespace IKEA.DAL.Persistance.Repositories._Generics
 
         }
 
-        public async T? GetById(int id)
+        public async Task<T>? GetById(int id)
         {
             //using Find is better approach 
 

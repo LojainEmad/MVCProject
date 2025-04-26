@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace IKEA.DAL.Persistance.Repositories.Employees
-{
+{ 
     public class EmployeeRepository : GenericRepository<Employee>,IEmployeeRepository
     {
         #region OLD APPROACH WITH NO GENERICS 
