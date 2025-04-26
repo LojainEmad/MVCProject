@@ -12,15 +12,15 @@ namespace IKEA.BLL.Services.EmployeeServices
     {
 
 
-        IEnumerable<EmployeeDto> GetAllEmployees(string search);
-        EmployeeDetailsDto? GetEmployeeById(int id);
+        Task <IEnumerable<EmployeeDto>> GetAllEmployees(string search);
+        Task <EmployeeDetailsDto>? GetEmployeeById(int id);
 
 
         //each model is different in the properties which have
-        int CreateEmployee(CreatedEmployeeDto employeeDto);
+        Task <int> CreateEmployee(CreatedEmployeeDto employeeDto);
 
-        int UpdateEmployee(UpdatedEmployeeDto employeeDto);
-        bool DeleteEmployee(int id);
+        Task <int> UpdateEmployee(UpdatedEmployeeDto employeeDto);
+        Task <bool> DeleteEmployee(int id);
 
     }
 }

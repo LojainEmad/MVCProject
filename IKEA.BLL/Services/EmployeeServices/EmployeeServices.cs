@@ -24,7 +24,7 @@ namespace IKEA.BLL.Services.EmployeeServices
             this.attachmentServices = attachmentServices;
         }
 
-        public IEnumerable<EmployeeDto> GetAllEmployees(string search)
+        public async Task <IEnumerable<EmployeeDto>> GetAllEmployees(string search)
         {
             #region Old region
             //return repository.GetAll().Where(E => !E.IsDeletd == false).Select(E => new EmployeeDto()
@@ -56,14 +56,14 @@ namespace IKEA.BLL.Services.EmployeeServices
                 EmployeeType = E.EmployeeType,
                 Department=E.Department.Name?? "N/A"
             });
-            return AfterFilteration.ToList();
+            return await AfterFilteration.ToListAsync();
 
         }
 
 
-        public EmployeeDetailsDto? GetEmployeeById(int id)
+        public async Task<EmployeeDetailsDto>? GetEmployeeById(int id)
         {
-            var employee = unitOfWork.EmployeeRepository.GetById(id);
+            var employee = await unitOfWork.EmployeeRepository.GetById(id);
             if (employee is not null)
             {
                 return new EmployeeDetailsDto()
@@ -91,7 +91,7 @@ namespace IKEA.BLL.Services.EmployeeServices
             return null; 
         }
 
-        public int CreateEmployee(CreatedEmployeeDto employeeDto)
+        public async Task<int> CreateEmployee(CreatedEmployeeDto employeeDto)
         {
             var Employee = new Employee()
             {
@@ -121,10 +121,10 @@ namespace IKEA.BLL.Services.EmployeeServices
             }
 
             unitOfWork.EmployeeRepository.Add(Employee);
-            return unitOfWork.Complete();
+            return await unitOfWork.Complete();
         }
 
-        public int UpdateEmployee(UpdatedEmployeeDto employeeDto)
+        public async Task<int> UpdateEmployee(UpdatedEmployeeDto employeeDto)
         {
             var Employee = new Employee()
             {
@@ -160,12 +160,12 @@ namespace IKEA.BLL.Services.EmployeeServices
             }
 
             unitOfWork.EmployeeRepository.Update(Employee);
-            return unitOfWork.Complete();
+            return await unitOfWork.Complete();
         }
 
-        public bool DeleteEmployee(int id)
+        public async Task <bool> DeleteEmployee(int id)
         {
-            var employee = unitOfWork.EmployeeRepository.GetById(id);
+            var employee =await unitOfWork.EmployeeRepository.GetById(id);
             //int result=0;
             if (employee is not null)
             {
@@ -180,7 +180,7 @@ namespace IKEA.BLL.Services.EmployeeServices
 
             var result = unitOfWork.Complete();
 
-            if (result > 0)
+            if (await result > 0)
                 return true;
 
             else

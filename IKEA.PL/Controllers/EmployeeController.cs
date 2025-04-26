@@ -27,11 +27,11 @@ namespace IKEA.PL.Controllers
         [HttpGet]  //Employee/Index ? search =Ahmed 
 
         //Transfer Data per Request 
-        public IActionResult Index(string search)
+        public async Task<IActionResult> Index(string search)
         {//ViweData ViewBag TempData
             //ViweData ViewBag
 
-            var Employees = employeeServices.GetAllEmployees(search);
+            var Employees =await employeeServices.GetAllEmployees(search);
 
             return View(Employees);
         }
@@ -47,7 +47,7 @@ namespace IKEA.PL.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(CreatedEmployeeDto EmployeeDto)
+        public async Task<IActionResult> Create(CreatedEmployeeDto EmployeeDto)
         {
             //ServerSide Validation
             if (!ModelState.IsValid)   //false =>BadRequest
@@ -59,7 +59,7 @@ namespace IKEA.PL.Controllers
 
             try
             {
-                var Result = employeeServices.CreateEmployee(EmployeeDto);
+                var Result = await employeeServices.CreateEmployee(EmployeeDto);
                 if (Result > 0)
                     return RedirectToAction(nameof(Index));
                 else
@@ -95,12 +95,12 @@ namespace IKEA.PL.Controllers
 
         #region Details
         [HttpGet]
-        public IActionResult Details(int? id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id is null)
                 return BadRequest();
 
-            var employee = employeeServices.GetEmployeeById(id.Value);
+            var employee = await employeeServices.GetEmployeeById(id.Value);
             if (employee is null)
                 return NotFound();
             return View(employee);
@@ -111,13 +111,13 @@ namespace IKEA.PL.Controllers
         #region Update
 
         [HttpGet]   //Get:   /Department/Edit/10
-        public IActionResult Edit(int? id)
+        public async Task<IActionResult> Edit(int? id)
         {
             //will make mapping to convert from departmentDetailsDto to UpdatedDepartmentDto , to limit the things which the user can edit and update 
             if (id is null)
                 return BadRequest();
 
-            var Employee = employeeServices.GetEmployeeById(id.Value);
+            var Employee = await employeeServices.GetEmployeeById(id.Value);
             if (Employee is null)
                 return NotFound();
 
@@ -143,7 +143,7 @@ namespace IKEA.PL.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(UpdatedEmployeeDto employeeDto)
+        public async Task<IActionResult> Edit(UpdatedEmployeeDto employeeDto)
         {
 
             //check the validation for the model if exist 
@@ -155,7 +155,7 @@ namespace IKEA.PL.Controllers
             try
             {
                 var Result = employeeServices.UpdateEmployee(employeeDto);
-                if (Result > 0)
+                if (await Result > 0)
                     return RedirectToAction(nameof(Index));
                 else
                     Message = "Employee is Not Updated";
@@ -193,12 +193,12 @@ namespace IKEA.PL.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete(int EmpId)
+        public async Task<IActionResult> Delete(int EmpId)
         {
             var Message = String.Empty;
             try
             {
-                var IsDeleted = employeeServices.DeleteEmployee(EmpId);
+                var IsDeleted =await employeeServices.DeleteEmployee(EmpId);
                 if (IsDeleted)
                     return RedirectToAction(nameof(Index));
                 Message = "Employee is Not Deleted";

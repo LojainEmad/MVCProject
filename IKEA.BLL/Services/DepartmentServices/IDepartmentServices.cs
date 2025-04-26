@@ -15,15 +15,15 @@ namespace IKEA.BLL.Services.DepartmentServices
         //we donot interact with the Department module 
         //DTO ->(Data Transfer Object ) this represent the model in the BLL , has the things which is useful only for endUser , make concept SOC .
 
-        IEnumerable<DepartmentDto> GetAllDepartments();
-        DepartmentDetailsDto? GetDepartmentById(int id);
+        Task<IEnumerable<DepartmentDto>> GetAllDepartments();
+        Task<DepartmentDetailsDto>? GetDepartmentById(int id);
 
 
         //each model is different in the properties which have
-        int CreateDepartment(CreatedDepartmentDto departmentDto);
+        Task<int> CreateDepartment(CreatedDepartmentDto departmentDto);
 
-        int UpdateDepartment(UpdatedDepartmentDto departmentDto);
-        bool DeleteDepartment(int id);
+        Task<int> UpdateDepartment(UpdatedDepartmentDto departmentDto);
+        Task<bool> DeleteDepartment(int id);
 
     }
 }

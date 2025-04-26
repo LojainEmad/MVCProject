@@ -3,7 +3,7 @@
 @inject IDepartmentServices departmentService
 @{
     ViewData["Title"] = "Create Employee";
-    var Departments = new SelectList(departmentService.GetAllDepartments(), nameof(DepartmentDto.Id) ,nameof(DepartmentDto.Name)) ;
+    var Departments = new SelectList(await departmentService.GetAllDepartments(), nameof(DepartmentDto.Id) ,nameof(DepartmentDto.Name)) ;
 }
 
 <div class="row justify-content-center align-content-center flex-column">

@@ -47,11 +47,11 @@ namespace IKEA.DAL.Persistance.Repositories._Generics
 
         }
 
-        public T? GetById(int id)
+        public async T? GetById(int id)
         {
             //using Find is better approach 
 
-            var item = dbContext.Set<T>().Find(id);    //search by id first locally , if not find then search remote 
+            var item =await dbContext.Set<T>().FindAsync(id);    //search by id first locally , if not find then search remote 
             return item;
         }
 

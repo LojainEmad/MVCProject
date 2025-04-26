@@ -13,7 +13,7 @@ namespace IKEA.DAL.Persistance.Repositories._Generics
         //IEnumerable<T> GetAll(bool WithNoTracking = true);  //will not track anything //this function return things form type IEnumrable
         IQueryable<T> GetAll(bool WithNoTracking = true);  
 
-        T? GetById(int id);   //return specific department by its ID
+        Task <T>? GetById(int id);   //return specific department by its ID
 
         void Add(T entity);   //return num of rows affected after that 
 
