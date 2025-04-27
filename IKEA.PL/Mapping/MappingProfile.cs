@@ -15,6 +15,12 @@ namespace IKEA.PL.Mapping
 
             CreateMap<DepartmentVM, UpdatedDepartmentDto >().ReverseMap();
 
+            CreateMap<DepartmentDetailsDto, DepartmentVM>();
+
+            CreateMap<DepartmentVM, DepartmentDetailsDto>().ReverseMap();
+
+            CreateMap<UpdatedDepartmentDto, DepartmentVM>().ReverseMap();
+
         }
     }
 }
