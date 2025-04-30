@@ -2,10 +2,13 @@
 using IKEA.BLL.Dto_s.Employees;
 using IKEA.BLL.Services.DepartmentServices;
 using IKEA.BLL.Services.EmployeeServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IKEA.PL.Controllers
 {
+
+    [Authorize]
     public class EmployeeController : Controller
     {
         #region Services - DI
@@ -24,6 +27,7 @@ namespace IKEA.PL.Controllers
         #endregion
 
         #region Index
+        //[AllowAnonymous]
         [HttpGet]  //Employee/Index ? search =Ahmed 
 
         //Transfer Data per Request 
@@ -94,6 +98,7 @@ namespace IKEA.PL.Controllers
         #endregion
 
         #region Details
+        //[Authorize(Roles ="Admin")]
         [HttpGet]
         public async Task<IActionResult> Details(int? id)
         {
@@ -111,6 +116,7 @@ namespace IKEA.PL.Controllers
         #region Update
 
         [HttpGet]   //Get:   /Department/Edit/10
+        //[Authorize(Roles = "Employee")]
         public async Task<IActionResult> Edit(int? id)
         {
             //will make mapping to convert from departmentDetailsDto to UpdatedDepartmentDto , to limit the things which the user can edit and update 

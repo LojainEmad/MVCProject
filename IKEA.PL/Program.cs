@@ -46,6 +46,16 @@ namespace IKEA.PL
 
             }).AddEntityFrameworkStores<ApplicationDbContext>();
 
+            builder.Services.AddAuthentication().AddCookie(options=>
+            {
+                options.LoginPath = "/Account/LogIn";
+                options.AccessDeniedPath = "Home/Error";
+                options.ExpireTimeSpan= TimeSpan.FromDays(2);
+                options.ForwardSignOut = "/Account/LogIn";
+            });
+
+
+
             #region Old 
             ////----------------------------------------
             ////Old , addScoped => make me create an obj from class i want Per Request . 

@@ -1,13 +1,13 @@
 ﻿@model LoginViewModel
 @{
-    ViewData["Title"] = "Login";
+    ViewData["Title"] = "LogIn";
     Layout = "~/Views/Shared/_AuthLayout.cshtml";
 }
 
 
 <div class="main-agileinfo">
 	<div class="agileits-top">
-		<form asp-action="Login" method="post">
+		<form asp-action="LogIn" method="post">
 
 			<input class="text" style="margin-bottom:10px" asp-for="Email" placeholder="Email" required="">
 			<input class="text" style="margin-bottom:10px" type="password" asp-for="Password" placeholder="Password" required="">

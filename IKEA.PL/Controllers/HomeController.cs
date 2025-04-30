@@ -1,9 +1,12 @@
 using System.Diagnostics;
 using IKEA.PL.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IKEA.PL.Controllers
 {
+
+    [Authorize]      //not allowed to make any one enter unless has not token
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
