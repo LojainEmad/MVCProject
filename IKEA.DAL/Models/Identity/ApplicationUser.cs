@@ -12,7 +12,7 @@ namespace IKEA.DAL.Models.Identity
         public string FName { get; set; } = null!;
 
         public string LName { get; set; } = null!;
-        public string IsAgree { get; set; }
+        public bool IsAgree { get; set; }
 
 
     }

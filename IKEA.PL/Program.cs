@@ -1,11 +1,13 @@
 using IKEA.BLL.Common.Services.Attachments;
 using IKEA.BLL.Services.DepartmentServices;
 using IKEA.BLL.Services.EmployeeServices;
+using IKEA.DAL.Models.Identity;
 using IKEA.DAL.Persistance.Data;
 using IKEA.DAL.Persistance.Repositories.Departments;
 using IKEA.DAL.Persistance.Repositories.Employees;
 using IKEA.DAL.Persistance.UnitOfWork;
 using IKEA.PL.Mapping;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace IKEA.PL
@@ -26,6 +28,23 @@ namespace IKEA.PL
                 options.UseLazyLoadingProxies().UseSqlServer(builder.Configuration.GetConnectionString("defaultConnection"));
             });
 
+            //Allow DI => USERManager SignInManager RoleManager
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>((options)=>
+            {
+                options.Password.RequiredLength = 8;
+                options.Password.RequireDigit = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireUppercase = true;
+                options.Password.RequireNonAlphanumeric = true;  //#$%
+                options.Password.RequiredUniqueChars = 1;
+
+                options.User.RequireUniqueEmail = true;
+
+                options.Lockout.AllowedForNewUsers = true;
+                options.Lockout.MaxFailedAccessAttempts = 5;
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromDays(5);
+
+            }).AddEntityFrameworkStores<ApplicationDbContext>();
 
             #region Old 
             ////----------------------------------------
@@ -45,9 +64,11 @@ namespace IKEA.PL
             //    return options;
             //});
             #endregion
-          
+
             //builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             //builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>(); //when any thing require thing from IDepartmentRepository (which is Services ) , send to it thing from type DepartmentRepository
+
+            //-------------------------------
 
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped<IEmployeeServices, EmployeeServices>();
